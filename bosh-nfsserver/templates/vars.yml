@@ -1,0 +1,6 @@
+vm_type: large.disk
+persistent_disk_type: 10240
+azs: [az1]
+network_name: control-plane
+vm_password: echo -n 'password' | mkpasswd --method=sha-512 --password-fd=0
+

@@ -1,0 +1,39 @@
+---
+name: nfsserver
+
+releases:
+- name: bosh-nfsserver
+  version: latest
+
+stemcells:
+- alias: bosh-vsphere-esxi-ubuntu-xenial-go_agent
+  os: ubuntu-xenial
+  version: latest
+
+instance_groups:
+- name: nfsserver
+  instances: 1
+  vm_type: ((vm_type))
+  persistent_disk_type: ((persistent_disk_type))
+  stemcell: bosh-vsphere-esxi-ubuntu-xenial-go_agent
+  azs: ((azs))
+  networks:
+    - name: ((network_name))
+      default: [dns, gateway]
+      #static_ips: ((nginx.static_ips))
+  lifecycle: service
+  jobs:
+  - name: nfsserver
+    release: bosh-nfsserver
+#  properties:
+  env:
+    bosh:
+      password: ((vm_password))
+
+update:
+  canaries: 1
+  canary_watch_time: 30000-300000
+  max_errors: 2
+  max_in_flight: 1
+  serial: true
+  update_watch_time: 30000-300000
